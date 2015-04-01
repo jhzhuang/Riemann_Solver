@@ -6,7 +6,7 @@ using namespace std;
 void Solve(Discrete_Records &result, Status &s1, Status &s2);
 void PrintResult(Discrete_Records &result);
 
-int main(int argc, int argv) {
+int main(int argc, char **argv) {
 
 	Status s1, s2;
 	Discrete_Records result;
