@@ -6,6 +6,7 @@
 #define IS_VACCUM(p) (p <= 0.0)
 #define IS_FILLED(p) (p > 0.0)
 #define IS_LEFT(wave) ((wave.back - wave.front) == 1)
+#define RIGHT_OFFSET(di) ((1 - di) / 2)
 
 void Density_Solver(Status_Container &container, Physical_Object &wave);
 void Discrete_Solver(Status_Container &container, Physical_Object &wave, Discrete_Records &record);
@@ -89,8 +90,8 @@ void Discrete_Solver(Status_Container &container, Physical_Object &wave, Discret
 	if (IS_SHOCK_WAVE(container.at(wave.front).pressure, container.at(wave.back).pressure))
 	{
 		double u_shock = (container.at(wave.back).density * container.at(wave.back).velocity - container.at(wave.front).density * container.at(wave.front).velocity) / (container.at(wave.back).density - container.at(wave.front).density);
-		int split_1 = (int)(u_shock * time / dx) * di;
-		int split_2 = (int)(container.at(wave.back).velocity * time / dx) * di;
+		int split_1 = ((int)(u_shock * time / dx) + RIGHT_OFFSET(di)) * di;
+		int split_2 = ((int)(container.at(wave.back).velocity * time / dx) + RIGHT_OFFSET(di)) * di;
 
 		for (pesudo_i = left_end, i = left_end * di + right_end; pesudo_i < split_1; pesudo_i++)
 		{
@@ -108,9 +109,9 @@ void Discrete_Solver(Status_Container &container, Physical_Object &wave, Discret
 	{
 		double u_wave_front = container.at(wave.front).velocity - di * sqrt(Gamma * container.at(wave.front).pressure / container.at(wave.front).density);
 		double u_wave_back = container.at(wave.back).velocity - di * sqrt(Gamma * container.at(wave.back).pressure / container.at(wave.back).density);
-		int split_1 = (int)(u_wave_front * time / dx) * di;
-		int split_2 = (int)(u_wave_back * time / dx) * di;
-		int split_3 = (int)(container.at(wave.back).velocity * time / dx) * di;
+		int split_1 = ((int)(u_wave_front * time / dx) + RIGHT_OFFSET(di)) * di;
+		int split_2 = ((int)(u_wave_back * time / dx) + RIGHT_OFFSET(di)) * di;
+		int split_3 = ((int)(container.at(wave.back).velocity * time / dx) + RIGHT_OFFSET(di)) * di;
 
 		for (pesudo_i = left_end, i = left_end * di + right_end; pesudo_i < split_1; pesudo_i++)
 		{
@@ -139,9 +140,9 @@ void Discrete_Solver(Status_Container &container, Physical_Object &wave, Discret
 	{
 		double u_wave_front = container.at(wave.front).velocity - di * sqrt(Gamma * container.at(wave.front).pressure / container.at(wave.front).density);
 		double u_wave_back = container.at(wave.front).velocity - di * 2.0 * sqrt(Gamma * container.at(wave.front).pressure / container.at(wave.front).density) / (Gamma + 1.0);
-		int split_1 = (int)(u_wave_front * time / dx) * di;
-		int split_2 = (int)(u_wave_back * time / dx) * di;
-		int split_3 = (int)(container.at(wave.back).velocity * time / dx) * di;
+		int split_1 = ((int)(u_wave_front * time / dx) + RIGHT_OFFSET(di)) * di;
+		int split_2 = ((int)(u_wave_back * time / dx) + RIGHT_OFFSET(di)) * di;
+		int split_3 = ((int)(container.at(wave.back).velocity * time / dx) + RIGHT_OFFSET(di)) * di;
 
 		for (pesudo_i = left_end, i = left_end * di + right_end; pesudo_i < split_1; pesudo_i++)
 		{

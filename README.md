@@ -3,6 +3,6 @@
 and gives the result of analytical solution at disctrete nodes. In my program, there is no necessarity 
 to seperate the initial discontinuity problem into five cases. The solver decide whether a wave is a shock 
 wave or expansion wave by simply comparing the pressure before it and after it, and this makes it possible to automaticly 
-compute parameters in certain zones using respective formulas for shock wave or expansion wave. The file example.cpp 
+compute parameters in certain zones using respective formulas for shock wave or expansion wave. The file example.cpp in directory example
 shows how to use this solver.
 
